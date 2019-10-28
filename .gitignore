@@ -5,7 +5,7 @@ node_modules
 
 # production
 /client/build/
-/backend/dist/
+/server/dist/
 /client2/build/
 /backend2/dist/
 
