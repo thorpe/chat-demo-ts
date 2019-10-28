@@ -3,16 +3,16 @@
 
 ````
 cd backend1
-npm install
+yarn install
 
 cd backend2
-npm install
+yarn install
 
 cd client1
-npm install
+yarn install
 
 cd client2
-npm install
+yarn install
 
 ````
 

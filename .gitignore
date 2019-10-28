@@ -4,8 +4,8 @@ node_modules
 .pnp.js
 
 # production
-/client1/build/
-/backend1/dist/
+/client/build/
+/backend/dist/
 /client2/build/
 /backend2/dist/
 
