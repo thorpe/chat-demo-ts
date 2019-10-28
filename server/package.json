@@ -6,7 +6,6 @@
   "author": "Ross Bulat",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "start": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "prod": "tsc && node ./dist/server.js"
   },
@@ -15,7 +14,6 @@
     "@types/node": "^12.11.7",
     "@types/redis": "^2.8.14",
     "@types/socket.io": "^2.1.2",
-    "connect-redis": "^4.0.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "redis": "^2.8.0",

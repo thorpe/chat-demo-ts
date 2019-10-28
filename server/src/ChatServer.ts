@@ -32,18 +32,16 @@ export class ChatServer {
     this._app.options('*', cors())
     this.server = createServer(this._app)
     this.initSocket()
-    this.initRedis()
+    this.initRedisSubscriber()
     this.socketListen()
 
     this._app.get('/', function (req, res) {
+      // 레디스로 메세지를 보낸다.
       const publisher: redis.RedisClient = redis.createClient(6379, 'localhost')
       const message = {
         author: req.query.author,
         message: req.query.message
       }
-
-      console.log("----------------------------------------------------")
-      console.log("Redis : publish data :" + message)
       publisher.publish("user-notify", JSON.stringify(message))
       res.send(message)
     })
@@ -53,7 +51,8 @@ export class ChatServer {
     this.io = socketIo(this.server)
   }
 
-  private initRedis(): void {
+  // 레디스로부터 데이터를 받는다.
+  private initRedisSubscriber(): void {
     const subscriber: redis.RedisClient = redis.createClient(6379, 'localhost')
     subscriber.on("message", (channel, message) => {
       const userMessage = JSON.parse(message)
@@ -61,12 +60,11 @@ export class ChatServer {
         author: userMessage.author,
         message: userMessage.message
       })
-      console.log("Redis : subscriber data :" + message)
-      console.log("Socket : emit data :" + message)
     })
     subscriber.subscribe("user-notify")
   }
 
+  // 소켓서버 리스닝
   private socketListen(): void {
     this.server.listen(this.port, () => {
       console.log('Socket : Running server on port %s', this.port)
@@ -76,7 +74,6 @@ export class ChatServer {
       console.log('Socket : Connected client on port %s.', this.port)
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
-        console.log("Socket Listing -----------------------------------------")
         console.log('Socket : [server](message): %s', JSON.stringify(m))
         this.io.emit('message', m)
       })
