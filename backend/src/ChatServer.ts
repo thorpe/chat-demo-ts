@@ -38,12 +38,16 @@ export class ChatServer {
 
     this._app.get('/', function (req, res) {
       const publisher: redis.RedisClient = redis.createClient(6379, 'localhost')
-      const user = {
-        id: req.query.id,
+      const message = {
+        author: req.query.author,
         message: req.query.message
       }
-      publisher.publish("user-notify", JSON.stringify(user))
-      res.send(user)
+
+
+      console.log("----------------------------------------------------")
+      console.log("Redis : publish data :" + message)
+      publisher.publish("user-notify", JSON.stringify(message))
+      res.send(message)
     })
   }
 
@@ -54,8 +58,13 @@ export class ChatServer {
   private initRedis(): void {
     const subscriber: redis.RedisClient = redis.createClient(6379, 'localhost')
     subscriber.on("message", (channel, message) => {
-      this.io.emit('message', message)
-      console.log("Redis : Received data :" + message)
+      console.log("----------------------------------------------------")
+      this.io.emit('message', {
+        author: "aa",
+        message: "sdsdf"
+      })
+      console.log("Redis : subscriber data :" + message)
+      console.log("Socket : emit data :" + message)
     })
     subscriber.subscribe("user-notify")
   }
@@ -69,6 +78,7 @@ export class ChatServer {
       console.log('Socket : Connected client on port %s.', this.port)
 
       socket.on(ChatEvent.MESSAGE, (m: ChatMessage) => {
+        console.log("Socket Listing -----------------------------------------")
         console.log('Socket : [server](message): %s', JSON.stringify(m))
         this.io.emit('message', m)
       })

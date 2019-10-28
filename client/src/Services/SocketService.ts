@@ -7,7 +7,7 @@ export class SocketService {
 
   public init(): SocketService {
     console.log('initiating socket service');
-    this.socket = io('localhost:8081');
+    this.socket = io('localhost:8080');
     return this;
   }
 
@@ -19,6 +19,7 @@ export class SocketService {
 
   // link message event to rxjs data source
   public onMessage(): Observable<ChatMessage> {
+    console.log('onMessage message: ');
     return fromEvent(this.socket, 'message');
   }
 
