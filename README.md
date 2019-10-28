@@ -2,17 +2,15 @@
 ### with Express, React, Socket.io and RxJS + Redis(Pub/Sub).
 
 ````
-cd backend1
+cd server
 yarn install
 
-cd backend2
+cd client
 yarn install
+````
 
-cd client1
-yarn install
-
-cd client2
-yarn install
-
+### Demo URL
+````
+http://localhost:3000/
 ````
 
