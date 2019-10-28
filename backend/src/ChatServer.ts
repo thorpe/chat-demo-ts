@@ -35,14 +35,12 @@ export class ChatServer {
     this.initRedis()
     this.socketListen()
 
-
     this._app.get('/', function (req, res) {
       const publisher: redis.RedisClient = redis.createClient(6379, 'localhost')
       const message = {
         author: req.query.author,
         message: req.query.message
       }
-
 
       console.log("----------------------------------------------------")
       console.log("Redis : publish data :" + message)
@@ -58,10 +56,10 @@ export class ChatServer {
   private initRedis(): void {
     const subscriber: redis.RedisClient = redis.createClient(6379, 'localhost')
     subscriber.on("message", (channel, message) => {
-      console.log("----------------------------------------------------")
+      const userMessage = JSON.parse(message)
       this.io.emit('message', {
-        author: "aa",
-        message: "sdsdf"
+        author: userMessage.author,
+        message: userMessage.message
       })
       console.log("Redis : subscriber data :" + message)
       console.log("Socket : emit data :" + message)
