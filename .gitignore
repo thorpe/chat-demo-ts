@@ -3,12 +3,11 @@ node_modules
 /.pnp
 .pnp.js
 
-# testing
-/coverage
-
 # production
 /client1/build/
 /backend1/dist/
+/client2/build/
+/backend2/dist/
 
 # misc
 .DS_Store
@@ -16,10 +15,12 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
+.gitignore
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+package.lock
 
 *code-workspace
